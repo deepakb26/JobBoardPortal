@@ -121,7 +121,7 @@ const SignUp = ({ open, setOpen }) => {
                             placeholder={
                               accountType === "seeker"
                                 ? "eg. James"
-                                : "Comapy name"
+                                : "Company name"
                             }
                             type="text"
                             register={register(
