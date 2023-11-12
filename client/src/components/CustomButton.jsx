@@ -14,4 +14,4 @@ const CustomButton = ({ title, containerStyles, iconRight, type, onClick }) => {
   );
 };
 
-export default CustomButton;
+export default CustomButton;

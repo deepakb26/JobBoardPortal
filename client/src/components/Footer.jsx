@@ -35,7 +35,9 @@ const Footer = () => {
 
                   <div className="mb-10 flex flex-col gap-3">
                     {links.map((link, indexedDB)=>(
-                      <Link to="/"
+                      <Link 
+                      key={link}
+                      to="/"
                         className="text-gray-300 text-sm hover:text-white">
                           {link}
                       </Link>
