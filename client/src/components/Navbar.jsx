@@ -7,10 +7,15 @@ import { AiOutlineClose, AiOutlineLogout } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { users } from "../utils/data";
 import CustomButton from "./CustomButton";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
+import { Logout } from "../redux/userSlice";
 
 function MenuList({ user, onClick }){
-  const handleLogOut = ()=>{}
+  const dispatch = useDispatch()
+  const handleLogOut = ()=>{
+    dispatch(Logout());
+    window.location.replace("/");
+  }
   return (
     <div>
       <Menu as = 'div' className='inline-block text-left'>
@@ -71,7 +76,7 @@ function MenuList({ user, onClick }){
               <Menu.Item>
                 {({ active }) => (
                   <button
-                    onClick={() => handleLogout()}
+                    onClick={() => handleLogOut()}
                     className={`${
                       active ? "bg-blue-500 text-white" : "text-gray-900"
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
@@ -97,7 +102,7 @@ function MenuList({ user, onClick }){
 
 
 const Navbar = () => {
-  const user = useSelector(state=>state.user);
+  const { user } = useSelector(state=>state.user);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleCloseNavbar = () =>{

@@ -7,10 +7,11 @@ import { AiOutlineMail } from "react-icons/ai";
 import { FiPhoneCall, FiEdit3, FiUpload } from "react-icons/fi";
 import { Link, useParams } from "react-router-dom";
 import { companies, jobs } from "../utils/data";
-import { CustomButton, JobCard, TextInput } from "../components"; 
+import { CustomButton, JobCard, TextInput, Loading } from "../components"; 
+import { apiRequest, handleFileUpload } from "../utils";
 /*Loading to be imported from loading.jsx*/
 
-const CompanyForm=({open,setOpen})=>{
+const CompanyForm=({open,setOpen,isLoading,setIsLoading})=>{
   const {user}=useSelector((state)=>state.user);
   const{
     register,
@@ -20,14 +21,41 @@ const CompanyForm=({open,setOpen})=>{
     formState:{errors},
   }=useForm({
     mode: "onChange",
-    defaultValues:{ ...user?.user},
+    defaultValues:{ ...user},
   });
 
   const dispatch=useDispatch();
   const [profileImage,setProfileImage]=useState("");
   const [uploadCv,setuploadCv]=useState("");
 
-  const onSubmit=()=>{};
+  const [errMsg,setErrMsg] = useState({status:false,message:""})
+
+  const onSubmit= async (data)=>
+  {
+    setErrMsg(null);
+
+    const uri = profileImage && (await handleFileUpload(profileImage));
+
+    const newData = uri? { ...data, profileUrl:uri} : data;
+
+    try
+    {
+      const res = await apiRequest({
+        url:"/companies/update-company",
+        token: user?.token,
+        data:newData,
+        method:"PUT",
+      });
+       setIsLoading(false);
+       console.log(res)
+
+      
+    } catch(error)
+    {
+      console.log(error);
+       setIsLoading(false)
+    }
+  };
 
   const closeModal=()=>setOpen(false);
 
@@ -139,11 +167,16 @@ const CompanyForm=({open,setOpen})=>{
                     </div>
 
                     <div className='mt-4'>
+                      {
+                        isLoading?(
+                          <Loading />
+                        ):(
                       <CustomButton
                         type='submit'
                         containerStyles='inline-flex justify-center rounded-md border border-transparent bg-blue-600 px-8 py-2 text-sm font-medium text-white hover:bg-[#1d4fd846] hover:text-[#1d4fd8] focus:outline-none '
                         title={"Submit"}
                       />
+                      )}
                     </div>
                   </form>
                 </Dialog.Panel>
@@ -157,16 +190,41 @@ const CompanyForm=({open,setOpen})=>{
 };
 
 
-
-
 const CompanyProfile = () => {
   const params=useParams();
-  const {user}=useSelector((state)=>state.user);
+  const { user }=useSelector((state)=>state.user);
   const [info,setInfo]=useState(null);
   const [isLoading,setIsLoading]=useState(false);
   const [openForm,setOpenForm]=useState(false);
+  console.log(user)
+  const fetchCompany = async()=>{
+    setIsLoading(true);
+    let id = null;
+
+    if(params.id && params.id !== undefined)
+    {
+      id = params?.id;
+    } else{
+      id = user?._id
+    }
+
+    try{
+      const res = await apiRequest({
+        url:"/companies/get-company/" + id,
+        method:"GET"
+      });
+
+      setInfo(res?.data);
+      setIsLoading(false);
+    } catch(error)
+    {
+      console.log(error);
+      setIsLoading(false);
+    }
+  }
   
   useEffect(()=>{
+    fetchCompany();
     setInfo(companies[parseInt(params?.id)-1??0]);
     window.scrollTo({top:0,left:0,behaviour:"smooth"});
   },[]);
@@ -184,7 +242,7 @@ const CompanyProfile = () => {
           </h2>
 
           {
-            user?.user?.accountType===undefined && info?._id===user?.user?._id && (
+            user?.accountType===undefined && info?._id===user?._id && (
               <div className="flex items-center justify-center py-5 md:py-0 gap-4">
                 <CustomButton 
                   onClick={()=>setOpenForm(true)}
@@ -240,7 +298,7 @@ const CompanyProfile = () => {
             }
           </div>
       </div>
-      <CompanyForm open={openForm} setOpen={setOpenForm}/>
+      <CompanyForm open={openForm} setOpen={setOpenForm} isLoading={isLoading} setIsLoading={setIsLoading} />
     </div>
   )
 }

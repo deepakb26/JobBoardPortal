@@ -11,6 +11,7 @@ import Office from "./office.jpg";
 import JobImg from "./job.jpg";
 import Facebook from "./facebook.png";
 import CodeWave from "./codewave.png";
+import iBall from "./iball.png";
 
 export {
   CodeWave,
@@ -26,4 +27,5 @@ export {
   Youtube,
   Office,
   JobImg,
+  iBall
 };
