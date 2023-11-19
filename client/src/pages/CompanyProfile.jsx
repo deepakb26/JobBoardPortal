@@ -6,12 +6,11 @@ import { HiLocationMarker } from "react-icons/hi";
 import { AiOutlineMail } from "react-icons/ai";
 import { FiPhoneCall, FiEdit3, FiUpload } from "react-icons/fi";
 import { Link, useParams } from "react-router-dom";
-import { companies, jobs } from "../utils/data";
 import { CustomButton, JobCard, TextInput, Loading } from "../components"; 
 import { apiRequest, handleFileUpload } from "../utils";
 /*Loading to be imported from loading.jsx*/
 
-const CompanyForm=({open,setOpen,isLoading,setIsLoading})=>{
+const CompanyForm=({open,setOpen})=>{
   const {user}=useSelector((state)=>state.user);
   const{
     register,
@@ -27,12 +26,14 @@ const CompanyForm=({open,setOpen,isLoading,setIsLoading})=>{
   const dispatch=useDispatch();
   const [profileImage,setProfileImage]=useState("");
   const [uploadCv,setuploadCv]=useState("");
-
+  const [isLoading,setIsLoading] = useState(false)
   const [errMsg,setErrMsg] = useState({status:false,message:""})
 
   const onSubmit= async (data)=>
   {
+    setIsLoading(true)
     setErrMsg(null);
+
 
     const uri = profileImage && (await handleFileUpload(profileImage));
 
@@ -48,6 +49,20 @@ const CompanyForm=({open,setOpen,isLoading,setIsLoading})=>{
       });
        setIsLoading(false);
        console.log(res)
+
+       if(res.status === "failed")
+       {
+        setErrMsg({ ...res });
+       }else {
+        setErrMsg({ status:"success",message:res.message});
+        const newData = { token:res?.token, ...res?.user};
+        dispatch(Login(newData));
+        localStorage.setItem("userInfo",JSON.stringify(data));
+
+        setTimeout(()=>{
+          window.location.reload();
+        },1500);
+       }
 
       
     } catch(error)
@@ -225,7 +240,6 @@ const CompanyProfile = () => {
   
   useEffect(()=>{
     fetchCompany();
-    setInfo(companies[parseInt(params?.id)-1??0]);
     window.scrollTo({top:0,left:0,behaviour:"smooth"});
   },[]);
 
@@ -285,10 +299,11 @@ const CompanyProfile = () => {
 
           <div className="flex flex-wrap gap-3">
             {
-              jobs?.map((job,index)=>{
+              info?.jobPosts?.map((job,index)=>{
                 const data={
                   name: info?.name,
                   email: info?.email,
+                  logo:info?.profileUrl, 
                   ...job,
                 };
                 return(
@@ -298,7 +313,7 @@ const CompanyProfile = () => {
             }
           </div>
       </div>
-      <CompanyForm open={openForm} setOpen={setOpenForm} isLoading={isLoading} setIsLoading={setIsLoading} />
+      <CompanyForm open={openForm} setOpen={setOpenForm} />
     </div>
   )
 }

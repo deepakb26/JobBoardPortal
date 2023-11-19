@@ -252,7 +252,7 @@ export const updateJob = async (req, res, next) => {
   
       res.status(200).send({
         success: true,
-        messsage: "Job Post Delted Successfully.",
+        message: "Job Post Delted Successfully.",
       });
     } catch (error) {
       console.log(error);

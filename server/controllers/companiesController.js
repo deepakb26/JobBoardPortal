@@ -268,7 +268,7 @@ export const updateCompanyProfile = async (req, res, next) => {
   export const getCompanyById = async (req, res, next) => {
     try {
       const { id } = req.params;
-  
+
       const company = await Companies.findById({ _id: id }).populate({
         path: "jobPosts",
         options: {
