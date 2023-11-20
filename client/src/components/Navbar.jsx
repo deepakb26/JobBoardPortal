@@ -139,7 +139,7 @@ const Navbar = () => {
             <Link to='/user-auth'>
               <CustomButton
                 title='Sign In'
-                containerStyles='text-blue-600 py-1.5 px-5 focus:outline-none hover:bg-blue-700 hover:text-white rounded-full text-base border border-blue-600'
+                containerStyles='text-black py-1.5 px-5 focus:outline-none hover:bg-[#C0C0C0] hover:text-white rounded-full text-base border border-black'
               />
             </Link>
           ) : (
@@ -186,7 +186,7 @@ const Navbar = () => {
             <a href='/user-auth'>
               <CustomButton
                 title='Sign In'
-                containerStyles={`text-blue-600 py-1.5 px-5 focus:outline-none hover:bg-blue-700 hover:text-white rounded-full text-base border border-blue-600`}
+                containerStyles={`text-black py-1.5 px-5 focus:outline-none hover:bg-[#C0C0C0] hover:text-white rounded-full text-base border border-black`}
               />
             </a>
           ) : (
