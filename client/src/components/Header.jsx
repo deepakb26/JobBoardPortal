@@ -71,7 +71,7 @@ const Header = ({
                 onClick={handleClick}
                 title='Search'
                 containerStyles={
-                  "text-white py-2 md:py3 px-3 md:px-10 focus:outline-none bg-blue-600 rounded-full md:rounded-md text-sm md:text-base"
+                  "text-white py-2 md:py3 px-3 md:px-10 focus:outline-none bg-black rounded-full md:rounded-md text-sm md:text-base"
                 }
               />
             </div>
