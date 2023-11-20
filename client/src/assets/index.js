@@ -1,5 +1,5 @@
 import NoProfile from "./userprofile.png";
-import HeroImage from "./hero.png";
+import HeroImage from "./hero1.png";
 import Google from "./google.png";
 import Linkedin from "./linkedin.png";
 import Youtube from "./youtube.png";

@@ -71,7 +71,7 @@ const Header = ({
                 onClick={handleClick}
                 title='Search'
                 containerStyles={
-                  "text-white py-2 md:py3 px-3 md:px-10 focus:outline-none bg-blue-600 rounded-full md:rounded-md text-sm md:text-base"
+                  "text-white py-2 md:py3 px-3 md:px-10 focus:outline-none bg-black rounded-full md:rounded-md text-sm md:text-base"
                 }
               />
             </div>
@@ -93,7 +93,7 @@ const Header = ({
       </div>
 
 
-      <div className='w-1/3 h-full absolute top-24 md:-top-6 lg:-top-14 right-16 2xl:right-[18rem]'>
+      <div className=' h-full scale-80 absolute md:-top-6 lg:-top-14 right-8 2xl:right-[2 rem]'>
           <img src={HeroImage} className='object-contain' />
         </div>
     </div>
