@@ -169,7 +169,7 @@ const FindJobs = () => {
     <div className='w-full md:w-5/6 px-5 md:px-0'>
       <div className='flex items-center justify-between mb-4'>
       <p className='text-sm md:text-base'>
-        Shwoing: <span className='font-semibold'>{recordsCount}</span> Jobs Available
+        Showing: <span className='font-semibold'>{recordsCount}</span> Jobs Available
       </p>
       <div className='flex flex-col md:flex-row gap-0 md:gap-2 md:items-center'>
         <p className='text-sm md:text-base'>Sort By:</p>
