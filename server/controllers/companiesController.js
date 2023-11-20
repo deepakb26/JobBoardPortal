@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import Companies from "../models/companiesModel.js";
 import { response } from "express";
+import Jobs from "../models/jobsModel.js"
+import Users from "../models/userModel.js"
 
 export const register = async (req, res, next) => {
   const { name, email, password } = req.body;
@@ -294,4 +296,56 @@ export const updateCompanyProfile = async (req, res, next) => {
       res.status(404).json({ message: error.message });
     }
   };
+
+
+  export const viewApplications = async (req,res,next) =>
+  {
+    try
+    {
+      const { id } = req.params
+      const user_id = req.body.user.userId;
+
+      const user = await Companies.findById({ _id: user_id });
+
+      if (!user) {
+        return res.status(200).send({
+          message: "Company Not Found",
+          success: false,
+        });
+      }
+
+      const job = await Jobs.findById({ _id: id });
+
+      if (!job) {
+        return res.status(500).send({
+          message: "Job Not Found",
+          success: false,
+        });
+      }
+
+      const users = []
+
+      for (const applicant of job.application) {
+        const user = await Users.findById(applicant);
+        user.password = undefined;
+        users.push(user);
+      }
+
+      res.status(200).json({
+        message: "Applicants for Job Position",
+        applications:users,
+        success: true,
+      });
+      
+    }
+    catch(error)
+    {
+      console.log(error);
+      res.status(500).json({
+      message: "error",
+      success: false,
+      error: error.message,
+    });
+    }
+  }
   

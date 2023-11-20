@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import Users from "../models/userModel.js";
+import Jobs from "../models/jobsModel.js"
 
 export const updateUser = async (req, res, next) => {
   const {
@@ -82,3 +83,73 @@ export const getUser = async (req, res, next) => {
     });
   }
 };
+
+export const getApplications = async (req,res,next) =>
+{
+  try{
+    const id = req.body.user.userId;
+
+    const user = await Users.findById(id);
+
+    if(!user)
+    {
+      return res.status(200).send({
+        message: "User Not Found",
+        success: false,
+      });
+    }
+    
+    const jobsWithUser = await Jobs.find({ application: { $in: [id] } }).populate({
+      path: "company",
+      select: "-password",
+    });
+
+    res.status(200).json({
+      message: "Jobs with User's Application",
+      jobs: jobsWithUser,
+      success: true,
+    });
+
+  } catch (error) 
+  {
+    console.log(error);
+    res.status(500).json({
+      message: "Error",
+      success: false,
+      error: error.message,
+    });
+  }
+}
+
+export const getUserDetails = async(req,res,next) =>
+{
+  try 
+  {
+    const { id } = req.params;
+
+    const user = await Users.findById({ _id: id });
+
+    if (!user) {
+      return res.status(200).send({
+        message: "User Not Found",
+        success: false,
+      });
+    }
+
+    user.password = undefined;
+
+    res.status(200).json({
+      success: true,
+      seeker: user,
+    });
+  } 
+  catch (error) 
+  {
+    console.log(error);
+    res.status(500).json({
+      message: "error",
+      success: false,
+      error: error.message,
+    });
+  }
+}

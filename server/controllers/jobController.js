@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import Jobs from "../models/jobsModel.js";
 import Companies from "../models/companiesModel.js";
+import Users from "../models/userModel.js";
 
 export const createJob = async (req, res, next) => {
   try 
@@ -259,4 +260,97 @@ export const updateJob = async (req, res, next) => {
       res.status(404).json({ message: error.message });
     }
   };
+
+  export const applyForJob = async (req,res,next) =>{
+    try{
+      const { id } = req.params;
+      const user_id = req.body.user.userId;
+
+      const user = await Users.findById({ _id: user_id });
+
+      if (!user) {
+        return res.status(200).send({
+          message: "User Not Found",
+          success: false,
+        });
+      }
+
+      const job = await Jobs.findById({ _id: id });
+
+      if (!job) {
+        return res.status(500).send({
+          message: "Job Not Found",
+          success: false,
+        });
+      }
+
+      if (job.application.includes(user_id)) {
+        return res.status(500).send({
+          message: "User already applied for this job",
+          success: false,
+        });
+      }
+  
+      job.application.push(user_id);
+  
+      await job.save();
+  
+      res.status(200).json({
+        message: "Application successful",
+        success: true,
+      });
+
+    }catch (error) {
+      console.log(error);
+      res.status(500).json({
+        message: "error",
+        success: false,
+        error: error.message,
+      });
+    }
+  }
+
+
+  export const checkifApplied = async (req,res,next) =>
+  {
+    try{
+      const { id } = req.params
+      const user_id = req.body.user.userId;
+
+      const user = await Users.findById({ _id: user_id });
+
+      const job = await Jobs.findById({ _id: id });
+
+      if (job.application.includes(user_id)) {
+        return res.status(200).send({
+          applicationstatus:true,
+          success:true,
+        }); 
+    }
+    else{
+      return res.status(200).send({
+        applicationstatus:false,
+        success:true,
+      });
+    }
+  }catch(error)
+  {
+    console.log(error)
+  }
+} 
+
+export const applicantdetails = async(req,res,next) =>{
+  try{
+    const { id } = req.params
+    const job = await Jobs.findById(id);
+    const applicants = job.application
+    return res.status(200).send({
+      applicants:applicants,
+      success:true
+    })
+  }catch(error)
+  {
+    console.log(error);
+  }
+}
 
