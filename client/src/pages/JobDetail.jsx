@@ -272,11 +272,9 @@ const JobDetail = () => {
                     <p className='text-xl font-semibold'>About Company</p>
                     <span>{job?.company?.about}</span>
                   </>
-                ) : setApplicationDetailsArray ? (
-                  <Loading />
-                ) : (
-                  <p>This is the sseker card</p>
-                )}
+                ) : 
+                  <SeekerCard id={id}/>
+                }
           </div>
 
           <div className='w-full'>
