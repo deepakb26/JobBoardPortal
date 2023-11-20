@@ -33,7 +33,7 @@ const JobCard = ({ job }) => {
         </div>
 
         <div className='flex items-center justify-between'>
-          <p className='bg-[#1d4fd826] text-[#1d4fd8] py-0.5 px-1.5 rounded font-semibold text-sm'>
+          <p className='bg-gray-200 text-black py-0.5 px-1.5 rounded font-semibold text-sm'>
             {job?.jobType}
           </p>
           <span className='text-gray-500 text-sm'>

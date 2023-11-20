@@ -93,7 +93,7 @@ const Header = ({
       </div>
 
 
-      <div className='w-1/3 h-full absolute top-24 md:-top-6 lg:-top-14 right-16 2xl:right-[18rem]'>
+      <div className=' h-full scale-80 absolute md:-top-6 lg:-top-14 right-8 2xl:right-[2 rem]'>
           <img src={HeroImage} className='object-contain' />
         </div>
     </div>
