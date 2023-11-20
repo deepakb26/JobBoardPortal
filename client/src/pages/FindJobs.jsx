@@ -103,7 +103,7 @@ const FindJobs = () => {
 
 
   return <div>
-    <Header title ='Find Your Dream Job with Ease'
+    <Header title ='Take the next step in your career'
     type="home"
     handleClick={handleSearchSubmit}
     searchQuery = {searchQuery}

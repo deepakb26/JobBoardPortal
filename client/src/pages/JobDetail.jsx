@@ -19,7 +19,6 @@ const JobDetail = () => {
   const [isFetching,setIsFetching] = useState(false);
   const [hasApplied,setHasApplied] = useState(false)
   const [applicants,setApplicants] = useState([])
-  const [applicationDetailsArray,setApplicationDetailsArray] = useState([])
 
 
   const getJobDetails = async ()=>{
@@ -35,27 +34,11 @@ const JobDetail = () => {
       console.log(res)
       setSimilarJobs(res?.similarJobs)
       setIsFetching(false)
-      setApplicants(res?.data?.application)
-      console.log(applicants)
     }catch(error)
     {
       setIsFetching(false)
       console.log(error)
     }
-  }
-
-  const getAppliedUser = async (req,res) =>{
-    for(const applicant of applicants)
-      {
-        const response = await apiRequest({
-          url:"/user/get-user-details/"+applicant,
-          token:user?.token,
-          method:"GET"
-        })
-        console.log(response)
-        applicationDetailsArray.push(response.seeker)
-      }
-      console.log(applicationDetailsArray)
   }
 
   const handleDeletePost = async() =>{
@@ -86,7 +69,7 @@ const JobDetail = () => {
 
   }
   useEffect(() => {
-    id && getJobDetails() && getAppliedUser();
+    id && getJobDetails()
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, [id]);
 
