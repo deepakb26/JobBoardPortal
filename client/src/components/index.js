@@ -9,5 +9,6 @@ import JobCard from "./JobCard";
 import JobTypes from "./JobTypes";
 import CompanyCard from "./CompanyCard";
 import Loading from "./Loading";
+import SeekerCard from "./SeekerCard";
 
-export { Navbar, Footer, CustomButton, TextInput, Header, ListBox, JobCard ,SignUp ,JobTypes , CompanyCard,Loading};
+export { Navbar, Footer, CustomButton, TextInput, Header, ListBox, JobCard ,SignUp ,JobTypes , CompanyCard,Loading,SeekerCard};

@@ -4,7 +4,7 @@ import moment from "moment";
 import { AiOutlineSafetyCertificate } from "react-icons/ai";
 import { useParams } from "react-router-dom";
 import { jobs } from "../utils/data";
-import { CustomButton, JobCard, Loading } from "../components";
+import { CustomButton, JobCard, Loading, SeekerCard } from "../components";
 import { useSelector } from "react-redux";
 import { apiRequest } from "../utils";
 
@@ -17,6 +17,10 @@ const JobDetail = () => {
   const [similarJobs,setSimilarJobs] = useState([])
   const [selected, setSelected] = useState("0");
   const [isFetching,setIsFetching] = useState(false);
+  const [hasApplied,setHasApplied] = useState(false)
+  const [applicants,setApplicants] = useState([])
+  const [applicationDetailsArray,setApplicationDetailsArray] = useState([])
+
 
   const getJobDetails = async ()=>{
     setIsFetching(true);
@@ -28,13 +32,30 @@ const JobDetail = () => {
       });
 
       setJob(res?.data)
+      console.log(res)
       setSimilarJobs(res?.similarJobs)
       setIsFetching(false)
+      setApplicants(res?.data?.application)
+      console.log(applicants)
     }catch(error)
     {
       setIsFetching(false)
       console.log(error)
     }
+  }
+
+  const getAppliedUser = async (req,res) =>{
+    for(const applicant of applicants)
+      {
+        const response = await apiRequest({
+          url:"/user/get-user-details/"+applicant,
+          token:user?.token,
+          method:"GET"
+        })
+        console.log(response)
+        applicationDetailsArray.push(response.seeker)
+      }
+      console.log(applicationDetailsArray)
   }
 
   const handleDeletePost = async() =>{
@@ -65,9 +86,61 @@ const JobDetail = () => {
 
   }
   useEffect(() => {
-    id && getJobDetails();
+    id && getJobDetails() && getAppliedUser();
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, [id]);
+
+  
+ const checkifApplied = async () =>{
+  try{
+    const res = await apiRequest({
+      url:"jobs/has-user-applied/" + id,
+      token:user?.token,
+      method:"GET"
+    })
+    if(res?.applicationstatus)
+    {
+      setHasApplied(true)
+    }
+  }
+  catch(error)
+  {
+    console.log(error)
+  }
+ } 
+  
+  
+  const applyingforJob = async() =>{
+
+    try{
+      if(window.confirm("Apply for the job"))
+      {
+        const res = await apiRequest({
+          url:"/jobs/get-job-detail/" + id,
+          token:user?.token,
+          method:"PUT"
+        })
+
+          if(res?.success)
+        {
+          setHasApplied(true)
+          alert(res?.message);
+          window.location.replace("jobs/get-job-detail/" + id)
+        }
+
+      }
+    }catch(error){
+      console.log(error)
+    }
+
+  }
+
+  useEffect(()=>{
+    checkifApplied()
+  },[hasApplied])
+  
+  
+
   return (
     <div className='container mx-auto'>
       <div className='w-full flex flex-col md:flex-row gap-10'>
@@ -156,52 +229,76 @@ const JobDetail = () => {
                   : "bg-white text-black border border-gray-300"
               }`}
             />
+
+
+            {user?._id === job?.company?._id && <CustomButton
+              onClick={() => {
+                setSelected("2")
+              }}
+              title='Applicants'
+              containerStyles={`w-full flex items-center justify-center  py-3 px-5 outline-none rounded-full text-sm ${
+                selected === "2"
+                  ? "bg-black text-white"
+                  : "bg-white text-black border border-gray-300"
+              }`}
+            />  }    
+
+
           </div>
           <div className='my-6'>
-            {selected === "0" ? (
-              <>
-                <p className='text-xl font-semibold'>Job Decsription</p>
-
-                <span className='text-base'>{job?.detail[0]?.desc}</span>
-
-                {job?.detail[0]?.requirements && (
+          {selected === "0" ? (
                   <>
-                    <p className='text-xl font-semibold mt-8'>Requirement</p>
-                    <span className='text-base'>
-                      {job?.detail[0]?.requirements}
-                    </span>
+                    <p className='text-xl font-semibold'>Job Description</p>
+                    <span className='text-base'>{job?.detail[0]?.desc}</span>
+                    {job?.detail[0]?.requirements && (
+                      <>
+                        <p className='text-xl font-semibold mt-8'>Requirement</p>
+                        <span className='text-base'>
+                          {job?.detail[0]?.requirements}
+                        </span>
+                      </>
+                    )}
                   </>
-                )}
-              </>
-            ) : (
-              <>
-                <div className='mb-6 flex flex-col'>
-                  <p className='text-xl text-blue-600 font-semibold'>
-                    {job?.company?.name}
-                  </p>
-                  <span className='text-base'>{job?.company?.location}</span>
-                  <span className='text-sm'>{job?.company?.email}</span>
-                </div>
+                ) : selected === "1" ? (
+                  <>
+                    <div className='mb-6 flex flex-col'>
+                      <p className='text-xl text-blue-600 font-semibold'>
+                        {job?.company?.name}
+                      </p>
+                      <span className='text-base'>{job?.company?.location}</span>
+                      <span className='text-sm'>{job?.company?.email}</span>
+                    </div>
 
-                <p className='text-xl font-semibold'>About Company</p>
-                <span>{job?.company?.about}</span>
-              </>
-            )}
+                    <p className='text-xl font-semibold'>About Company</p>
+                    <span>{job?.company?.about}</span>
+                  </>
+                ) : setApplicationDetailsArray ? (
+                  <Loading />
+                ) : (
+                  <p>This is the sseker card</p>
+                )}
           </div>
 
           <div className='w-full'>
-           {user?._id === job?.company?._id ? (<CustomButton
+          {user?._id === job?.company?._id ? (
+            <CustomButton
               title='Delete Post'
               onClick={handleDeletePost}
               containerStyles={`w-full flex items-center justify-center text-white bg-black py-3 px-5 outline-none rounded-full text-base`}
-            />) : 
-            (
-              <CustomButton
+            />
+          ) : hasApplied ? (
+            <CustomButton
+              title='You have applied'
+              containerStyles={`w-full flex items-center justify-center text-white bg-black py-3 px-5 outline-none rounded-full text-base`}
+            />
+          ) : (
+            <CustomButton
+              onClick={applyingforJob}
               title='Apply Now'
               containerStyles={`w-full flex items-center justify-center text-white bg-black py-3 px-5 outline-none rounded-full text-base`}
             />
-            )
-            }
+            )}
+
           </div>
         </div>
         )}

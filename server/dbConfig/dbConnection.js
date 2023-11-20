@@ -2,7 +2,8 @@ import mongoose from 'mongoose'
 
 const dbConnection = async()=>{
     try{
-        const dbConnection = await mongoose.connect("mongodb+srv://deepak:deepak@cluster0.jtbonvk.mongodb.net/JobFinder")
+
+        const dbConnection = await mongoose.connect("")
         console.log("Database connected")
     }
 

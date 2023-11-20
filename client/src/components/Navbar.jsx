@@ -25,7 +25,7 @@ function MenuList({ user, onClick }){
               <p className='text-sm font-semibold '>
                 {user?.firstName ?? user?.name}
               </p>
-              <span className='text-sm text-blue-600 '>
+              <span className='text-sm text-gray-500'>
                 {user?.jobTitle ?? user?.email}
               </span>
             </div>
@@ -113,8 +113,8 @@ const Navbar = () => {
     <div className='relative bg-[#f7fdfd] z-50'>
       <nav className='container mx-auto flex items-center justify-between p-5'>
         <div>
-          <Link to='/' className='text-blue-600 font-bold text-xl'>
-            Job<span className='text-[#1677cccb]'>Finder</span>
+          <Link to='/' className='text-black font-bold text-xl'>
+            Hire<span className='text-gray-500'>Hub</span>
           </Link>
         </div>
 
@@ -172,7 +172,7 @@ const Navbar = () => {
         <Link
           onClick={handleCloseNavbar}
           to={
-            user?.accountType === "seeker" ? "applly-gistory" : "upload-job"
+            user?.accountType === "seeker" ? "applications" : "upload-job"
           }
         >
           {user?.accountType === "seeker" ? "Applications" : "Upload Job"}
