@@ -78,7 +78,7 @@ const UploadJob = () => {
     <div className="container mx-auto flex flex-cil md:flex-row gap-8 2xl:gap-14 bg-[#f7fdfd] px-5">
       <div className="w-full h-fit md:w-2/3 2xl:2/4 bg-white px-5 py-10 md:px-10 shadow-md">
         <div>
-          <p className="text-gray-500 font-semibold text-2xl">Job Post</p>
+          <p className="text-gray-900 font-semibold text-2xl">Job Post</p>
 
           <form
             className='w-full mt-2 flex flex-col gap-8'
@@ -197,8 +197,8 @@ const UploadJob = () => {
               ) : (
               <CustomButton
                 type='submit'
-                containerStyles='inline-flex justify-center rounded-md border border-transparent bg-blue-600 px-8 py-2 text-sm font-medium text-white hover:bg-[#1d4fd846] hover:text-[#1d4fd8] focus:outline-none '
-                title='Sumbit'
+                containerStyles='inline-flex justify-center rounded-md border border-transparent bg-gray-900 px-8 py-2 text-sm font-medium text-white hover:bg-[#1d4fd846] hover:text-[#1d4fd8] focus:outline-none '
+                title='Submit'
               />)}
             </div>
           </form>
