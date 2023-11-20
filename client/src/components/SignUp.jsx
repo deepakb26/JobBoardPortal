@@ -111,8 +111,8 @@ const SignUp = ({ open, setOpen }) => {
                       className={`flex-1 px-4 py-2 rounded text-sm outline-none ${
                         //If the account is Seeker then set bg to blue else white
                         accountType === "seeker"
-                          ? "bg-[#1d4fd862] text-blue-900 font-semibold"  
-                          : "bg-white border border-blue-400"
+                          ? "bg-[#C0C0C0] text-black font-semibold"  
+                          : "bg-white border border-black"
                       }`}
                       onClick={() => setAccountType("seeker")}
                     >
@@ -122,8 +122,8 @@ const SignUp = ({ open, setOpen }) => {
                       className={`flex-1 px-4 py-2 rounded text-sm outline-none ${
                         //If the account is !=Seeker ie Company then set bg to blue else white
                         accountType !== "seeker"
-                          ? "bg-[#1d4fd862] text-blue-900 font-semibold"
-                          : "bg-white border border-blue-400"
+                          ? "bg-[#C0C0C0] text-black font-semibold"
+                          : "bg-white border border-black"
                       }`}
                       onClick={() => setAccountType("company")}
                     >
@@ -262,7 +262,7 @@ const SignUp = ({ open, setOpen }) => {
                     <div className="mt-2">
                       <CustomButton
                         type="submit"
-                        containerStyles={`inline-flex justify-center rounded-md bg-blue-600 px-8 py-2 text-sm font-medium text-white outline-none hover:bg-blue-800`}
+                        containerStyles={`inline-flex justify-center rounded-md bg-black px-8 py-2 text-sm font-medium text-white outline-none hover:bg-[#808080]`}
                         title={isRegister ? "Create Account" : "Login Account"}
                       />
                     </div>

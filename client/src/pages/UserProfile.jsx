@@ -223,7 +223,7 @@ const UserForm = ({ open, setOpen }) => {
                       ):(
                       <CustomButton
                         type='submit'
-                        containerStyles='inline-flex justify-center rounded-md border border-transparent bg-blue-600 px-8 py-2 text-sm font-medium text-white hover:bg-blue-700 hover:text-white focus:outline-none '
+                        containerStyles='inline-flex justify-center rounded-md border border-transparent bg-black px-8 py-2 text-sm font-medium text-white hover:bg-gray-800 hover:text-white focus:outline-none '
                         title={"Submit"}
                       />
                       )}
@@ -252,7 +252,7 @@ const UserProfile = () => {
             {userInfo?.firstName + " " + userInfo?.lastName}
           </h1>
 
-          <h5 className='text-blue-700 text-base font-bold'>
+          <h5 className='text-black text-base font-bold'>
             {userInfo?.jobTitle || "Add Job Title"}
           </h5>
 
@@ -274,7 +274,7 @@ const UserProfile = () => {
         <div className='w-full py-10'>
           <div className='w-full flex flex-col-reverse md:flex-row gap-8 py-6'>
             <div className='w-full md:w-2/3 flex flex-col gap-4 text-lg text-slate-600 mt-20 md:mt-0'>
-              <p className='text-[#0536e7]  font-semibold text-2xl'>ABOUT</p>
+              <p className='text-black  font-semibold text-2xl'>ABOUT</p>
               <span className='text-base text-justify leading-7'>
                 {userInfo?.about ?? "No About Found"}
               </span>
@@ -287,7 +287,7 @@ const UserProfile = () => {
                 className='w-full h-48 object-contain rounded-lg'
               />
               <button
-                className='w-full sm:w-50 bg-blue-600 text-white mt-4 py-2 rounded'
+                className='w-full sm:w-50 bg-black hover:bg-gray-800 text-white mt-4 py-2 rounded'
                 onClick={() => setOpen(true)}
               >
                 Edit Profile
