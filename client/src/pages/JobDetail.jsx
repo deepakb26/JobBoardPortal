@@ -108,7 +108,7 @@ const JobDetail = () => {
         {
           setHasApplied(true)
           alert(res?.message);
-          window.location.replace("jobs/get-job-detail/" + id)
+          window.location.reload()
         }
 
       }
