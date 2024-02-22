@@ -5,3 +5,4 @@ The frontend was built with the help of REACT, TailwindCSS, headless UI, redux f
 The backend was built using the MVC approach and utilises Node.js, MongoDB and JWT for authentication.
 
 For the deployment of the project we leveraged netlify for the frontend and render for the backend. 
+
